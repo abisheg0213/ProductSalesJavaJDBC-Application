@@ -185,13 +185,26 @@ class Productmanagement {
             System.out.println(e);
         }
     }
+    public void show_all_products(){
+        try {
+            String sales_q="SELECT * FROM product";
+            Statement stm_1=this.con.createStatement();
+            ResultSet rs1=stm_1.executeQuery(sales_q);
+            System.out.println("Product ID - Product Name - Quantity - Manufacture - Cost");
+            while(rs1.next()){
+                System.out.println(rs1.getInt("prod_id")+" - "+rs1.getString("pname")+" - "+rs1.getInt("quantity")+" - "+rs1.getString("manufac")+" - "+rs1.getDouble("cost"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 }
-public class SalesManagment {
+public class Main {
     public static void main(String[] args) throws Exception {
         Productmanagement pmg = new Productmanagement();
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/salesdb", "root", "");
         while(true){
-            System.out.println("Enter 1 to add New product \n 2 to add new customer \n 3 to add new sales data \n 4 to display sales Invoice \n 5 to view customer sales details \n 6 to update payment status for sales \n 7 to check product availability \n 8 to add new quantity of the stock \n 9 to view today's sales revenue");
+            System.out.println("Enter 1 to add New product \n 2 to add new customer \n 3 to add new sales data \n 4 to display sales Invoice \n 5 to view customer sales details \n 6 to update payment status for sales \n 7 to check product availability \n 8 to add new quantity of the stock \n 9 to view today's sales revenue \n 10 to View all product data");
             Scanner scan = new Scanner(System.in);
             int choice = Integer.parseInt(scan.nextLine());
             if (choice == 1) {
@@ -281,6 +294,9 @@ public class SalesManagment {
             }
             else if(choice==9){
                pmg.get_totalday_income();
+            }
+            else if(choice==10){
+                pmg.show_all_products();
             }
             else {
                 break;
